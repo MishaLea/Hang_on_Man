@@ -19,14 +19,25 @@ while not isGameOver:
     
     print("     ------")
     print("     |    |")
-    print("     |    " )
-    print("     |    " )
-    print("     |    " )
-    print("     |    " ) 
-    print(" ----------")
+    print("     |    " + ("O" if attempts > 0 else ""))
+    print("     |    " + ("/\\" if attempts > 1 else ""))
+    print("     |    " + ("|" if attempts > 2 else ""))
+    print("     |    " + ("/\\" if attempts > 3 else ""))
+    print(" --------")
 
-    break
+
     # ask the player for a character.
+    letterGuessed = input("Please guess a letter: ")
+
+    if letterGuessed in word:
+        for i in range(len  (word)  ):
+            character = word[i]
+            if character == letterGuessed:
+                hidden[i] = word[i]
+                word[i] = '_'
+
+    print(hidden)
+    print(word)
 
     # if the player guessed correct, show all matched letters and print message
 
