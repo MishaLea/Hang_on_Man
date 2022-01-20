@@ -1,62 +1,106 @@
+"""
+Import random library for
+game to choose random words
+"""
 import random
 
-# set up the word and hidden list.
-words = ['experiment', 'leash', 'me', 'second', 'rehearsal', 'carry',
-        'shine', 'great', 'motif', 'intervention', 'shake', 'narrow',
-        'bridge', 'story', 'blonde', 'field', 'man', 'rotate', 'disappoint',
-        'purpose', 'irony', 'consideration', 'weapon', 'cable', 'governor',
-        'enlarge', 'aspect', 'free', 'laser', 'pill']
-hidden = []
 
-word = random.choice(words)
+def hangman():
+    list_of_words = ["airplane", "airport", "ajar", "alarm",
+                     "alcoholic", "alert", "alike", "alive",
+                     "alleged"]
+    word = random.choice(list_of_words)
+    turns = 10
+    guessmade = ''
+    valid_entry = set('abcdefghijklmnopqrstuvwxyz')
 
-for character in words:
-    hidden.append("_")
+    while len(word) > 0:
+        main_word = ""
 
-attempts = 0
-max_attempts = 5
+        # letter is a new variable
+        for letter in word:
+            if letter in guessmade:
+                main_word = main_word + letter
+            else:
+                main_word = main_word + "_ "
 
-# loop until either the player has won or lost.
-isGameOver = False
-while not isGameOver:
+        if main_word == word:
+            print(f"{main_word}")
+            print("You won")
+            break
 
-    # dislay the current boards, guessed letters and attempts remaining.
-    print(f'You have {max_attempts - attempts} attempts ramaining')
+        print(f"Guess the word {main_word}")
+        guess = input()
 
-    print(f"The current word is: {' '.join(hidden)}")
+        if guess in valid_entry:
+            guessmade = guessmade + guess
+        else:
+            print("Enter valid character")
+            guess = input()
 
-    print("     ------")
-    print("     |    |")
-    print("     |    " + ("O" if attempts > 0 else ""))
-    print("     |    " + ("/\\" if attempts > 1 else ""))
-    print("     |    " + ("|" if attempts > 2 else ""))
-    print("     |    " + ("/\\" if attempts > 3 else ""))
-    print(" --------")
+        if guess not in word:
+            turns = turns - 1
 
-    # ask the player for a character.
-    letterGuessed = input("Please guess a letter: ")
-    print("\n\n\n\n")
+            if turns == 9:
+                print("9 turns left")
+                print("-----------------")
+            if turns == 8:
+                print("8 turns left")
+                print("-----------------")
+                print("        0        ")
+            if turns == 7:
+                print("7 turns left")
+                print("-----------------")
+                print("        0        ")
+                print("        |        ")
+            if turns == 6:
+                print("6 turns left")
+                print("-----------------")
+                print("        0        ")
+                print("        |        ")
+                print("       /         ")
+            if turns == 5:
+                print("5 turns left")
+                print("-----------------")
+                print("        0        ")
+                print("        |        ")
+                print("       / \       ")
+            if turns == 4:
+                print("4 turns left")
+                print("-----------------")
+                print("      \ 0        ")
+                print("        |        ")
+                print("       / \       ")
+            if turns == 3:
+                print("3 turns left")
+                print("-----------------")
+                print("      \ 0 /      ")
+                print("        |        ")
+                print("       / \       ")
+            if turns == 2:
+                print("2 turns left")
+                print("-----------------")
+                print("        |        ")
+                print("      \ 0 /      ")
+                print("        |        ")
+                print("       / \       ")
+            if turns == 1:
+                print(" only 1 turn left! Hang on, Man - You got this!")
+                print("-----------------")
+                print("       ___       ")
+                print("        |        ")
+                print("      \ 0 /      ")
+                print("        |        ")
+                print("       / \       ")
+            if turns == 0:
+                print(". . . . . . . . . . .")
+                print("Sorry, Man. You lose!")
+                print("Better luck next time!")
+                break
 
-    if letterGuessed in words:
-        # if guessed correct, show all matched letters and print message
-        print(f'Nice work, the letter {letterGuessed} is in the word!')
-        for i in range(len(word)):
-            character = words[i]
-            if character == letterGuessed:
-                hidden[i] = words[i]
-                words[i] = '_'
-    else:
-        # if guessed wrong, print failure message and incorrect attempts.
-        print(f'Unlucky, the letter {letterGuessed} is not in the word.')
-        attempts += 1
 
-    # if the player wins print congrats message and stop the looping.
-    if (all('_' == char for char in word)):
-        print("Congrats, Man! You won!")
-        isGameOver = True
-
-    # if player has lost, print fail message and stop loop.
-    if (attempts == max_attempts):
-
-        print("Ouch, better luck next time!")
-        isGameOver = True
+name = input("Welcome to 'Hang on, Man!' Enter your name here -> ")
+print(f"Welcome {name}!")
+print(". . . . . . . . . . . . ")
+print("Try to guess the word - HINT! Start with vowels.")
+hangman()
